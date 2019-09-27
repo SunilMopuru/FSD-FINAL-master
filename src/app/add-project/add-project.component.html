@@ -1,0 +1,163 @@
+<form [formGroup]="addProjectForm">
+  <section>
+    <div class="row">
+      <div class="col-md-6 offset-3 " style="background-color: burlywood;border-radius: 30px;">
+        <h4 class="text-center header">Add Project</h4>
+        <table class="table">
+          <tr>
+            <td class="text-style">Project Name </td>
+            <td>
+              <input id="projectName" class="form-control" type="text" formControlName="projectName"
+                [ngClass]="{'is-invalid': submitted && addProjectForm.get('projectName').errors }" />
+              <span *ngIf="submitted && addProjectForm.get('projectName').errors" class="invalid-feedback">
+                <span *ngIf="addProjectForm.get('projectName').errors.required"> Project Name required </span>
+              </span>
+            </td>
+          </tr>
+          <td>
+            <input type="checkbox" formControlName="isDateRequired" (change)="dateRequired()" />
+          </td>
+          <td>
+            <div class="input-group">
+              <span class="text-style">Set start and End Date</span>
+            </div>
+            <div>
+              <div class="input-group" *ngIf="showdate">
+                <div><input id="startDate"  type="date" formControlName="startDate"
+                    [ngClass]="{'is-invalid': submitted && addProjectForm.get('startDate').errors}"
+                    placeholder="StartDate" />
+                  <span *ngIf="addProjectForm.get('startDate').errors" class="invalid-feedback">
+                    <span *ngIf="addProjectForm.get('startDate').errors.startDateRequired">
+                      Project Start Date is required
+                    </span>
+                    <span *ngIf="addProjectForm.get('startDate').errors.startDateInvalid">
+                      Project Start Date should not greater than End Date
+                    </span>
+                  </span>
+                </div>
+                <br>
+                <br>
+                <div><input type="date"  formControlName="endDate"
+                    placeholder="End Date" /></div>
+              </div>
+              <!-- <div *ngIf="showdate">
+                <input id="startDate" type="date" formControlName="startDate"
+                  [ngClass]="{'is-invalid': submitted && addProjectForm.get('startDate').errors}"
+                  placeholder="StartDate" />
+                <br>
+                <br>
+                <input type="date" formControlName="endDate" placeholder="End Date" />
+              </div> -->
+            </div>
+          </td>
+          <tr>
+            <td class="text-style">Priority</td>
+            <td>
+              0 &nbsp;<input class="slider" width="90%" type="range" min="1" max="30" value="0"
+                formControlName="priority">&nbsp;30
+            </td>
+          </tr> 
+          <tr>
+            <td class="text-style">Manager</td>
+            <td>
+              <div>
+                <input id="managerName" class="form-control" type="text" formControlName="managerName"
+                  [ngClass]="{'is-invalid': submitted && addProjectForm.get('managerName').errors }" readonly />
+                <span *ngIf="submitted && addProjectForm.get('managerName').errors" class="invalid-feedback">
+                  <span *ngIf="addProjectForm.get('managerName').errors.required"> Project Manager required </span>
+                </span>
+                <br>
+                <span class="input-group-btn col-md-2">
+                  <ngbd-modal-user [userList]="userList" (selectedUserEvent)="handleSelectedUserEvent($event)">
+                  </ngbd-modal-user>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr rowspan="2">
+            <td colspan="2" class="text-center">
+              <span class="col-md-3" *ngIf="isNewProject">
+                <input class="btn btn-primary" type="button" value="Add" (click)="addProject()" />
+              </span>
+              <span class="col-md-3" *ngIf="!isNewProject">
+                <input class="btn btn-primary" type="button" value="Update" (click)="addProject()" />
+              </span>
+
+              <span class="col-md-3">
+                <input class="btn btn-info" type="button" value="Reset" (click)="resetForm()" />
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section>
+    <h4 style="text-align: center">&nbsp;</h4>
+  </section>
+  <section style="background-color: burlywood;border-radius: 30px;">
+    <div class="center header">
+      <h4 style="text-align: center; border-bottom: 2px solid white">Project List</h4>
+    </div>
+    <div>
+
+      <span class="col-md-6">
+        <input id="searchKey" type="text" formControlName="searchKey" placeholder="Search..." />
+      </span>
+      <span class="col-md-3">
+        <label class="text-style">Sort By:</label>
+        <span class="col-md-2">
+          <input id="sortBy" class="btn btn-info" type="button" value="Start Date" (click)="sortByStartDate()" />
+        </span>
+        <span class="col-md-2">
+          <input class="btn btn-info " type="button" value="End Date" (click)="sortByEndDate()" />
+        </span>
+        <span class="col-md-2">
+          <input class="btn btn-info" type="button" value="Priority" (click)="sortByPriority()" />
+        </span>
+        <span class="col-md-2">
+          <input class="btn btn-info" type="button" value="Completed" (click)="sortByCompleted()" />
+        </span>
+      </span>
+    </div>
+    <table class="table">
+      <tr *ngFor="let project of searchProjectList">
+        <td>
+          <div class="list-group">
+            <div class="list-group-item list-group-item-secondary">
+              <span class="col-md-2"><strong>Project:</strong></span>
+              <span> {{project.projectName}}</span>
+            </div>
+            <div class="list-group-item list-group-item-secondary">
+              <span class="col-md-2"><strong>No of Tasks: </strong></span>
+              <span>{{project.totalTask}}</span>
+              <span class="col-md-2"><strong>Completed: </strong></span>
+              <span>{{project.completedTask}}</span>
+
+            </div>
+            <div class="list-group-item list-group-item-secondary">
+              <span class="col-md-2"><strong>StartDate:</strong></span>
+              <span> {{project.startDate}}</span>
+              <span class="col-md-2"><strong>EndDate:</strong></span>
+              <span> {{project.endDate}}</span>
+            </div>
+          </div>
+        </td>
+        <td><strong>Priority</strong>
+          <div class="list-group list-group-item-secondary">
+            <span>{{project.priority}}</span>
+          </div>
+        </td>
+        <td>
+          <ng-container *ngIf="project.completed===false">
+            <div><input class="btn btn-primary" type="button" (click)="editProject(project)" value="Update" /></div>
+            <div>&nbsp;</div>
+            <div><input class="btn btn-warning" type="button" (click)="suspendProject(project.projectId)"
+                value="Suspend" /></div>
+          </ng-container>
+        </td>
+      </tr>
+    </table>
+
+    <br>
+  </section>

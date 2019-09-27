@@ -1,0 +1,37 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-search-user">Select User</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+   
+  <div class="modal-body">
+    <div class="input-group">
+      <label for="searchKey">Search User</label>
+      <input type="text" class="form-control" [(ngModel)]="searchKey"  placeholder="search..." >
+    </div><div>&nbsp;</div>
+    <div>
+      <Table class="table table-primary table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>First Name Name</th>
+            <th>Last Name</th>
+            <th>Emp ID</th>
+            <th>Select</th>
+          </tr>
+        </thead>
+        <tr class="table-hover" *ngFor="let user of userList | userSearch :searchKey"> 
+          <td>{{user.firstName}}</td>
+          <td>{{user.lastName}}</td>
+          <td>{{user.empId}}</td>
+          <td>
+            <input type="radio" name="radioGroup" value="user" (click)="select(user)" />
+          </td>
+        </tr>
+      </Table>
+    </div>
+  </div>
+</ng-template>
+      
+  <button class="btn btn-sm btn-success" (click)="open(content)">search</button>

@@ -1,0 +1,106 @@
+<form [formGroup]="addTaskForm" >  
+  <div class="row">
+    <div class="col-md-6 offset-3" style="background-color: burlywood;border-radius: 30px;"> 
+        <h4 class="text-center header">Add Task</h4>
+      <table class="table">
+        <tr>
+            <td class="text-style">Project *</td>
+            <td>
+              <div>
+                <input id="projectName" class="form-control" type="text" formControlName="projectName"  [ngClass]="{'is-invalid': submitted && addTaskForm.get('projectName').errors }" readonly/>
+                <span *ngIf="submitted && !disableChildTask && addTaskForm.get('projectName').errors" class="invalid-feedback">
+                  <span *ngIf="addTaskForm.get('projectName').errors.required">
+                    select project name 
+                  </span>
+                </span>
+                <br>
+                <span class="input-group-btn col-md-2" *ngIf="!disableChildTask">
+                  <ngbd-modal-project [allProject]="projectList" (selectedProjectEvent) = "handleSelectedProjectEvent($event)">                    
+                  </ngbd-modal-project>
+                </span>                  
+              </div>
+          </td>  
+        </tr>
+        <tr>
+          <td class="text-style"> Task *</td>
+          <td>
+            <input id="task" class="form-control" type="text" formControlName="task"  [ngClass]="{'is-invalid': submitted && addTaskForm.get('task').errors }" />
+            <span *ngIf="submitted && addTaskForm.get('task').errors" class="invalid-feedback">
+              <span *ngIf="addTaskForm.get('task').errors.required">
+                Task name is required 
+              </span>
+            </span>
+        </td>
+        </tr>
+        <tr>
+          <td class="text-style">Is Parent Task</td>
+          <td> <input type="checkbox" formControlName="isparentTask" (change)="setParentTask()"/></td>
+        </tr>
+        <tr >
+          <td class="text-style">Priority</td>
+          <td>
+            0<input class="slider" width="90%" type="range" min="1" max="30" value="0" formControlName="priority">30
+          </td>
+        </tr>
+        <tr >
+          <td class="text-style"> parent Task</td>
+          <td>
+            <div>
+                <input id="parentTaskName" class="form-control" type="text" formControlName="parentTaskName" [ngClass]="{'is-invalid': submitted && addTaskForm.get('parentTaskName').errors }" readonly />                    
+                  <span *ngIf="submitted && addTaskForm.get('parentTaskName').errors" class="invalid-feedback">
+                    <span *ngIf="addTaskForm.get('parentTaskName').errors.required"> Parent task  required </span>
+                  </span>
+                  <br>
+                <span class="input-group-btn col-md-2" *ngIf="!disableChildTask"><ngbd-modal-parent-task [allParent]="allParentTask" (selectedParentTaskEvent)="handleSelectedParentTaskEvent($event)"> </ngbd-modal-parent-task>
+                </span>
+              </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-style">Start Date *</td>
+          <td>
+            <input id="startDate" class="form-control" type="date" formControlName="startDate" [ngClass]="{'is-invalid': submitted && addTaskForm.get('startDate').errors}" />
+            <span *ngIf="submitted && addTaskForm.get('startDate').errors" class="invalid-feedback">
+              <span *ngIf="addTaskForm.get('startDate').errors.startDateRequired">
+                Task Start Date is required  
+              </span>
+              <span *ngIf="addTaskForm.get('startDate').errors.startDateInvalid">
+                Task Start Date should not greater than End Date 
+              </span>
+            </span>
+          </td> 
+        </tr>
+        <tr>
+          <td  class="text-style">End Date</td>
+          <td>
+            <input type="date" class="form-control" formControlName="endDate" />
+          </td>
+        </tr>
+        <tr>
+          <td class="text-style">User</td>
+          <td>
+              <div>
+                <input id="userName" class="form-control" type="text" formControlName="userName" [ngClass]="{'is-invalid': submitted && addTaskForm.get('userName').errors }" readonly />                    
+                  <span *ngIf="submitted && addTaskForm.get('userName').errors" class="invalid-feedback">
+                    <span *ngIf="addTaskForm.get('userName').errors.required"> Project Manager required </span>
+                  </span>
+                  <br>
+                <span class="input-group-btn col-md-2" *ngIf="!disableChildTask"><ngbd-modal-user [userList]="userList" (selectedUserEvent) = "handleSelectedUserEvent($event)"></ngbd-modal-user></span>                  
+              </div>
+  
+          </td>
+
+        <tr rowspan="2">
+          <td colspan="2" class="text-center">
+              <span class="col-md-3">
+                <input class="btn btn-primary" type="button" value="Submit" (click)="addTask()"/>
+              </span>
+              <span class="col-md-3">
+                <input class="btn btn-warning" type="button" value="Reset" (click)="resetForm()" />
+              </span>
+          </td>
+        </tr>
+      </table>
+    </div> 
+  </div>
+</form>

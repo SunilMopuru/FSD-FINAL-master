@@ -1,0 +1,101 @@
+<form [formGroup]="addUserForm" (ngSubmit)="addUser()"> 
+  <section> 
+    <div class="row">
+    <div class="col-md-4"></div>
+      <div class="col-md-4" style="background-color: burlywood;border-radius: 30px;"> 
+        <h4 class="text-center header">Add User</h4>
+        <table class="table">
+          <tr>
+            <td class="text-style">First Name </td>
+            <td>
+              <input id="firstName" class="form-control" type="text" formControlName="firstName"  [ngClass]="{'is-invalid': submitted && addUserForm.get('firstName').errors }" />
+              <span *ngIf="submitted && addUserForm.get('firstName').errors" class="invalid-feedback">
+                <span *ngIf="addUserForm.get('firstName').errors.required">
+                  First name required 
+                </span>
+              </span>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-style">Last Name </td>
+          <td>
+            <input id="lastName" class="form-control" type="text" formControlName="lastName"  [ngClass]="{'is-invalid': submitted && addUserForm.get('lastName').errors }" />
+            <span *ngIf="submitted && addUserForm.get('lastName').errors" class="invalid-feedback">
+              <span *ngIf="addUserForm.get('lastName').errors.required">
+                First name required 
+              </span>
+            </span>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-style">Emp ID </td>
+        <td>
+          <input id="empId" class="form-control" type="number" formControlName="empId"  [ngClass]="{'is-invalid': submitted && addUserForm.get('empId').errors }" />
+          <span *ngIf="submitted && addUserForm.get('empId').errors" class="invalid-feedback">
+            <span *ngIf="addUserForm.get('empId').errors.required">
+              Employee ID required 
+            </span>
+          </span>
+      </td>
+    </tr>
+    <tr rowspan="2">
+        <td colspan="2" class="text-center">
+            <span class="col-md-3" *ngIf="isNewUser">
+                <input class="btn btn-primary" type="submit" value="Add" />
+            </span>
+            <span class="col-md-3" *ngIf="!isNewUser">
+                <input class="btn btn-primary" type="submit" value="Update" />
+            </span>
+            <span class="col-md-3">
+                <input class="btn btn-info" type="button" value="Reset" (click)="resetForm()" />  
+            </span>
+          </td>  
+    </tr>
+    </table>
+    </div>
+  </div>
+</section>
+<div class="center">
+    <h4 style="text-align: center">&nbsp;</h4>
+</div>
+<section style="background-color: burlywood;border-radius: 30px;">
+    <div class="center">
+        <h4 style="text-align: center; border-bottom: 2px solid white"class="header">User List</h4>
+    </div>
+  <div>
+    <span class="col-md-4">&nbsp;</span>
+  <span>
+    <input id="searchKey" type="text" formControlName="searchKey" placeholder="Search..." />
+  </span>
+  <span class="col-md-3">
+    <label class="text-style">Sort By:</label>
+    <span class="col-md-2">
+      <input id ="sortBy" class="btn btn-info" type="button" value="FirstName" (click)="sortByfirstName()"/>
+    </span>
+    <span class="col-md-2">
+      <input class="btn btn-info" type="button" value="LastName" (click)="sortBylastName()"/>
+    </span>
+    <span class="col-md-2">
+      <input class="btn btn-info" type="button" value="Emp ID" (click)="sortByEmpId()"/>  
+    </span>
+  </span>
+</div>
+  <table class="table">
+    <tr *ngFor="let user of searchUsers">        
+      <td>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-secondary">{{user.firstName}}</li>
+          <li class="list-group-item list-group-item-secondary">{{user.lastName}}</li>
+          <li class="list-group-item list-group-item-secondary">{{user.empId}}</li>
+        </ul>
+      </td>
+        <td>
+          <div><input class="btn btn-primary" type="button" (click)="editUser(user)" value="Edit" /></div>
+          <div>&nbsp;</div><div>&nbsp;</div>
+          <div *ngIf="!user.mappedProject && !user.mappedTask"><input class="btn btn-warning" type="button" (click)="deleteUser(user.userId)" value="Delete" /></div>
+        </td>  
+    </tr>    
+  </table>
+  <br>
+</section>
+</form>

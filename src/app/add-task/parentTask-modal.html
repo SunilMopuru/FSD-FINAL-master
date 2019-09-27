@@ -1,0 +1,33 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-search-parent-task">Select Project</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+   
+  <div class="modal-body">
+    <div class="input-group">
+      <label for="searchKey">Search Project</label>
+      <input type="text" class="form-control" [(ngModel)]="searchKey"  placeholder="search..." >
+    </div><div>&nbsp;</div>
+    <div>
+      <Table class="table table-success table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>Project Name</th>
+            <th>Select</th>
+          </tr>
+        </thead>
+        <tr class="table-hover" *ngFor="let parentTask of allParent | parentTaskSearch :searchKey"> 
+          <td>{{parentTask.parentTask}}</td>
+          <td>
+            <input type="radio" name="radioGroup" value="parentTask" (click)="select(parentTask)" />
+          </td>
+        </tr>
+      </Table>
+    </div>
+  </div>
+</ng-template>
+      
+  <button class="btn btn-sm btn-success" (click)="open(content)">search</button>

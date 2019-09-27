@@ -1,0 +1,79 @@
+<div>
+    <h4 style="text-align: center; color: white; font-weight: bold;">View Task</h4>
+</div>
+<section class="search-section" style="background-color: burlywood;border-radius: 30px;">
+    <br>
+    <div>
+        <span class="col-md-6">
+            <label for="projectName" class="text-style">Project: </label>
+            &nbsp;&nbsp;
+            <input id="projectName" type="text" [(ngModel)]="projectName" readonly />
+            <span class="input-group-btn col-md-2">
+                <ngbd-modal-project [allProject]="projectList"
+                    (selectedProjectEvent)="handleSelectedProjectEvent($event)"></ngbd-modal-project>
+            </span>
+        </span>
+        <br>
+        <br>
+        <span class="col-md-3">
+            <label class="text-style">Sort Task By:</label>
+            <span class="col-md-2">
+                <input id="sortBy" class="btn btn-info" type="button" value="Start Date" (click)="sortByStartDate()" />
+            </span>
+            <span class="col-md-2">
+                <input class="btn btn-info " type="button" value="End Date" (click)="sortByEndDate()" />
+            </span>
+            <span class="col-md-2">
+                <input class="btn btn-info" type="button" value="Priority" (click)="sortByPriority()" />
+            </span>
+            <span class="col-md-2">
+                <input class="btn btn-info" type="button" value="Completed" (click)="sortByCompleted()" />
+            </span>
+        </span>
+    </div>
+    <br>
+</section>
+<div class="center">
+    <h4 style="text-align: center; color: white; font-weight: bold;">Search Result</h4>
+</div>
+
+<section style="background-color: #e3e3e3;">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Task</th>
+                <th>Parent</th>
+                <th>Priority</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tr *ngFor="let task of allTasks">
+            <td>{{task.task}} </td>
+
+            <ng-container *ngIf="task.parentTask != null else elseTemplate" filter>
+                <td>{{task.parentTask.parentTask}} </td>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <td>This Task Has NO Parent</td>
+            </ng-template>
+
+            <td *ngelse>{{task.parentTask.task}} </td>
+            <td>{{task.priority}} </td>
+            <td>{{task.startDate}} </td>
+            <td>{{task.endDate}} </td>
+            <td><input class="btn btn-primary" type="button" [routerLink]="['/editTask',task.taskId]"
+                    value="Edit Task" /></td>
+
+            <ng-container *ngIf="task.endDate != null else elseEndDateTemplate">
+                <td>&nbsp;</td>
+            </ng-container>
+            <ng-template #elseEndDateTemplate>
+                <td><input class="btn btn-warning" type="button" (click)="endTask(task)" value="End Task" /></td>
+            </ng-template>
+
+        </tr>
+    </table>
+</section>
