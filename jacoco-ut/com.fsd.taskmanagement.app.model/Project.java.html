@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Project.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">taskmanagement service</a> &gt; <a href="index.source.html" class="el_package">com.fsd.taskmanagement.app.model</a> &gt; <span class="el_source">Project.java</span></div><h1>Project.java</h1><pre class="source lang-java linenums">package com.fsd.taskmanagement.app.model;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Objects;
+import java.util.Set;
+
+@Entity
+@Table(name = &quot;PROJECT&quot;)
+<span class="fc" id="L14">public class Project {</span>
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = &quot;PROJECT_ID&quot;, updatable = false, nullable = false)
+    private Long projectId;
+
+    @Column(name=&quot;PROJECT_NAME&quot;, nullable = false)
+    private String projectName;
+
+    @Column(name = &quot;PRIORITY&quot;)
+    private long priority;
+
+    @Column(name=&quot;START_DATE&quot;)
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+
+    @Column(name=&quot;END_DATE&quot;)
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
+
+    @Column(name=&quot;IS_COMPLETED&quot;, nullable = false)
+    private Boolean completed;
+
+    @OneToOne
+    @JoinColumn(name=&quot;MANAGER_ID&quot;, nullable=true)
+    private User manager;
+
+    @OneToMany(mappedBy = &quot;project&quot;, fetch=FetchType.EAGER)
+    @JsonManagedReference
+    private Set&lt;Task&gt; tasklist;
+
+    public Long getProjectId() {
+<span class="nc" id="L47">        return projectId;</span>
+    }
+
+    public void setProjectId(Long projectId) {
+<span class="nc" id="L51">        this.projectId = projectId;</span>
+<span class="nc" id="L52">    }</span>
+
+    public String getProjectName() {
+<span class="nc" id="L55">        return projectName;</span>
+    }
+
+    public void setProjectName(String projectName) {
+<span class="nc" id="L59">        this.projectName = projectName;</span>
+<span class="nc" id="L60">    }</span>
+
+    public long getPriority() {
+<span class="nc" id="L63">        return priority;</span>
+    }
+
+    public void setPriority(long priority) {
+<span class="nc" id="L67">        this.priority = priority;</span>
+<span class="nc" id="L68">    }</span>
+
+    public Date getStartDate() {
+<span class="nc" id="L71">        return startDate;</span>
+    }
+
+    public void setStartDate(Date startDate) {
+<span class="nc" id="L75">        this.startDate = startDate;</span>
+<span class="nc" id="L76">    }</span>
+
+    public Date getEndDate() {
+<span class="nc" id="L79">        return endDate;</span>
+    }
+
+    public void setEndDate(Date endDate) {
+<span class="nc" id="L83">        this.endDate = endDate;</span>
+<span class="nc" id="L84">    }</span>
+
+    public User getManager() {
+<span class="nc" id="L87">        return manager;</span>
+    }
+
+    public void setManager(User manager) {
+<span class="nc" id="L91">        this.manager = manager;</span>
+<span class="nc" id="L92">    }</span>
+
+    public Boolean isCompleted() {
+<span class="nc" id="L95">        return completed;</span>
+    }
+
+    public void setCompleted(Boolean completed) {
+<span class="nc" id="L99">        this.completed = completed;</span>
+<span class="nc" id="L100">    }</span>
+
+    public Set&lt;Task&gt; getTasklist() {
+<span class="nc" id="L103">        return tasklist;</span>
+    }
+
+    public void setTasklist(Set&lt;Task&gt; tasklist) {
+<span class="nc" id="L107">        this.tasklist = tasklist;</span>
+<span class="nc" id="L108">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L113" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L114">        Project project = (Project) o;</span>
+<span class="nc" id="L115">        return projectId.equals(project.projectId);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L120">        return Objects.hash(projectId);</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

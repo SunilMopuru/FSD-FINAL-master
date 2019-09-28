@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ParentTask.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">taskmanagement service</a> &gt; <a href="index.source.html" class="el_package">com.fsd.taskmanagement.app.model</a> &gt; <span class="el_source">ParentTask.java</span></div><h1>ParentTask.java</h1><pre class="source lang-java linenums">package com.fsd.taskmanagement.app.model;
+
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = &quot;PARENT_TASK&quot;)
+public class ParentTask {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = &quot;PARENT_ID&quot; , updatable = false, nullable = false )
+    private Long parentTaskId;
+
+    @Column(name=&quot;PARENT_TASK&quot;)
+    private String parentTask;
+
+    public ParentTask()
+    {
+<span class="fc" id="L20">        super();</span>
+<span class="fc" id="L21">    }</span>
+
+    public ParentTask(String parentTask)
+<span class="nc" id="L24">    {</span>
+<span class="nc" id="L25">        this.parentTask =parentTask;</span>
+<span class="nc" id="L26">    }</span>
+    public Long getParentTaskId() {
+<span class="fc" id="L28">        return parentTaskId;</span>
+    }
+
+    public void setParentTaskId(Long parentTaskId) {
+<span class="nc" id="L32">        this.parentTaskId = parentTaskId;</span>
+<span class="nc" id="L33">    }</span>
+
+    public String getParentTask() {
+<span class="fc" id="L36">        return parentTask;</span>
+    }
+
+    public void setParentTask(String parentTask) {
+<span class="fc" id="L40">        this.parentTask = parentTask;</span>
+<span class="fc" id="L41">    }</span>
+
+    @Override
+    public String toString()
+    {
+<span class="nc" id="L46">        return &quot;ParentTask: &quot; + this.parentTaskId + &quot;, &quot; + this.parentTask;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
